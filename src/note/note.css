@@ -1,0 +1,102 @@
+.noteContainer{
+    width: 100%;
+    /* height: calc(100vh - 50px); */
+}
+
+.noteTop{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 50px;
+}
+
+.noteHeading{
+    margin: 0px;
+    font-weight: 500;
+    font-size: 30px;
+    font-family: "Jost", sans-serif;
+}
+
+.cardWrapper{
+    /* max-width:300px; */
+    height: 300px;
+    border: 1px solid #8ecae6;
+    padding: 20px 30px;
+    border-radius: 10px;
+    /* background-color: #8ecae6; */
+}
+
+.description{
+height: 115px;
+}
+
+.cardStatus{
+    display: flex;
+    justify-content: space-between;
+    padding:20px 0px;
+}
+
+.cardDate{
+    margin: 0px;
+}
+
+.cardAction{
+    display: flex;
+  gap: 30px;
+  padding-top: 20px;
+
+}
+
+.cardSpan{
+    margin: 0px;
+    font-family: "Jost", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    /* text-decoration: underline; */
+}
+
+/* .cardPara{
+    width: 200px;
+    overflow-y: scroll;
+} */
+
+
+.cardContainer{
+    gap: 20px;
+    padding: 0px 50px;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.noteBottom{
+    /* height: calc(100vh - 100px); */
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+
+
+
+/*///////////////////////////////////////// create note ///////////////////////////////////////////*/
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+    min-height: 300px;
+    max-height: 450px;
+    width: 500px;
+    padding: 20px;
+}
+
+.createNoteInput{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.css-10o2lyd-MuiStack-root>.MuiTextField-root{
+    min-width: 100% !important;
+}
