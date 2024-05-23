@@ -5,6 +5,7 @@
     justify-content: center;
     height: 100vh;
     width: 100%;
+    background: #1976D2;
 }
 
 .formWrapper{
@@ -45,3 +46,9 @@
     font-size: 15px;
     font-weight: 400;
 }
+
+.error-message {
+    color: #E34746;
+    font-size: 14px;
+  }
+  

@@ -131,7 +131,7 @@ export default function CreateNote({ open, handleClose }) {
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DemoContainer components={['DatePicker']}>
                                 <DatePicker
-                                    label="Date"
+                                    label="Reminder"
                                     value={formik.values.date}
                                     onChange={(date) => formik.setFieldValue('date', date)}
                                 />
@@ -140,7 +140,7 @@ export default function CreateNote({ open, handleClose }) {
                     </div>
 
                     <DialogActions>
-                        <Button variant='contained' autoFocus type="submit">
+                        <Button variant='contained' autoFocus type="submit" style={{marginTop: '10px'}}>
                             Save
                         </Button>
                     </DialogActions>

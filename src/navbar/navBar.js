@@ -28,7 +28,7 @@ const NavBar = ({ userName }) => {
 
         <p className='navUserName'>{userName}</p>
 
-        <Button style={{ color: "white" }} onClick={() => handleLogOut()}>Logout</Button>
+        <Button variant='contained' style={{ color: "white" }} onClick={() => handleLogOut()}>Logout</Button>
 
       </div>
     </div>

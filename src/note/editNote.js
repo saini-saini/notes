@@ -119,7 +119,7 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DemoContainer components={['DatePicker']}>
                                 <DatePicker
-                                    label="Date"
+                                    label="Reminder"
                                     value={formik.values.date}
                                     onChange={(date) => formik.setFieldValue('date', date)}
                                 />

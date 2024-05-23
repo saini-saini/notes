@@ -1,40 +1,45 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import './signUp.css'
 import { Button } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import { SignUpValidation } from '../formValidation/formValidation'
 import TextError from '../formValidation/errorMessage'
-import { v4 as uuidv4 } from 'uuid'; 
+import { v4 as uuidv4 } from 'uuid';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { auth } from '../firebaseFireStore/config'
-import { eventEmitter } from '../utils/eventEmitter'
 const SignUp = () => {
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async(values) => {
+  const errorMessages = {
+    'auth/invalid-credential': '⚠️Invalid credentials.',
+    'auth/user-not-found': '⚠️No user found with this email.',
+    'auth/wrong-password': '⚠️Incorrect password.',
+    'auth/email-already-in-use': '⚠️Email already in use.',
+  };
+
+  const getErrorMessage = (code) => {
+    return errorMessages[code] || 'An error occurred. Please try again.';
+  };
+
+  const handleSubmit = async (values) => {
     const token = uuidv4();
-    const dataWithToken = {
-      ...values,
-      token: token
-    };
-    // const docRef = await addDoc(authData, dataWithToken);
-    // console.log("Document written with ID: ", docRef.id);
-    createUserWithEmailAndPassword(auth, values.email, values.password).then((userCredential) => {
-      updateProfile(auth.currentUser, {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+      await updateProfile(auth.currentUser, {
         displayName: values.name,
         token: token
-      })
+      });
       console.log("User created with email and password", userCredential.user);
       navigate("/home");
-      eventEmitter.dispatch('signup');
-    }).catch((error) => {
+    } catch (error) {
+      setErrorMessage(getErrorMessage(error.code));
       console.error("Error creating user: ", error);
-    })
-    console.log(dataWithToken, "values with token")
+    }
   }
 
-  
+
   return (
     <div className='formContainer'>
       <Formik
@@ -47,6 +52,7 @@ const SignUp = () => {
         onSubmit={handleSubmit}>
         <Form className='formWrapper'>
           <h1 style={{ color: '#1976D2' }}>Sign Up</h1>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <Field type="text" name="name" placeholder="Name" className="input" />
           <ErrorMessage name="name" component={TextError} />
           <Field type="text" name="email" placeholder="Email" className="input" />
