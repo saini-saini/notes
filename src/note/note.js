@@ -1,4 +1,4 @@
-import { Button, Chip } from '@mui/material';
+import { Button, Chip, Menu, MenuItem, Tooltip } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -8,20 +8,23 @@ import './note.css';
 import EditNote from './editNote';
 import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import { dataBase } from '../firebaseFireStore/config';
-import Tooltip from '@mui/material/Tooltip';
 import { eventEmitter } from '../utils/eventEmitter';
 import Loding from '../loader/loder';
 import { auth } from '../firebaseFireStore/config';
+import priorityIcon from "../images/prioritize.png";
 
 const Note = () => {
   const [openCreateNote, setOpenCreateNote] = useState(false);
   const [openEditNote, setOpenEditNote] = useState(false);
   const [noteData, setNoteData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [filter, setFilter] = useState("all");
+
   const authData = auth;
   const user = authData.currentUser;
-
   const notesCollection = collection(dataBase, "notes");
 
   const handleOpenCreateNote = () => {
@@ -42,15 +45,6 @@ const Note = () => {
     setSelectedNote(null);
   };
 
-  const formatDate = (seconds) => {
-    const date = new Date(seconds * 1000);
-    return new Intl.DateTimeFormat('en-GB', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-    }).format(date);
-  };
-
   const handleDelete = async (id) => {
     try {
       await deleteDoc(doc(notesCollection, id));
@@ -58,6 +52,24 @@ const Note = () => {
     } catch (e) {
       console.error("Error deleting document: ", e);
     }
+  };
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleFilterChange = (priority) => {
+    setFilter(priority);
+    if (priority === "all") {
+      setFilteredData(noteData);
+    } else {
+      setFilteredData(noteData.filter(note => note.priority === priority));
+    }
+    handleMenuClose();
   };
 
   useEffect(() => {
@@ -69,6 +81,7 @@ const Note = () => {
         const notes = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
         notes.sort((a, b) => b.date.seconds - a.date.seconds);
         setNoteData(notes);
+        setFilteredData(notes);
       } finally {
         setLoading(false);
       }
@@ -77,17 +90,34 @@ const Note = () => {
     if (user) {
       getNotes();
     }
-
     const createNote = eventEmitter.subscribe('noteCreated', getNotes);
     const deleteNote = eventEmitter.subscribe('noteDeleted', getNotes);
     const updateNote = eventEmitter.subscribe('noteUpdated', getNotes);
-
     return () => {
       createNote();
       deleteNote();
       updateNote();
     };
   }, [user]);
+
+  const formatDate = (seconds) => {
+    const date = new Date(seconds * 1000);
+    return new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    }).format(date);
+  };
+
+  const generateRandomColor = () => {
+    const minBrightness = 200;
+    const maxBrightness = 255;
+    const r = Math.floor(Math.random() * (maxBrightness - minBrightness) + minBrightness);
+    const g = Math.floor(Math.random() * (maxBrightness - minBrightness) + minBrightness);
+    const b = Math.floor(Math.random() * (maxBrightness - minBrightness) + minBrightness);
+    const color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
+    return color;
+  };
 
   return (
     <div className='noteContainer'>
@@ -98,12 +128,20 @@ const Note = () => {
         <div>
           <div className='noteTop'>
             <p className='noteHeading'>Notes</p>
-            <Button variant="contained" onClick={handleOpenCreateNote}><AddIcon />Create</Button>
+            <div className='filter'>
+              <p>Filter</p>
+              <Tooltip title="Priority">
+                <Button variant='contained' onClick={handleMenuOpen}>
+                  <img src={priorityIcon} alt="" style={{ width: "30px", height: "30px" }} />
+                </Button>
+              </Tooltip>
+            </div>
+            <Button variant="contained" onClick={handleOpenCreateNote} className='noteButton'><AddIcon />Create</Button>
           </div>
           <div className='noteBottom'>
             <div className='cardContainer'>
-              {noteData.map((value, index) => (
-                <div className='cardWrapper' key={index}>
+              {filteredData.map((value, index) => (
+                <div className='cardWrapper' key={index} style={{ backgroundColor: generateRandomColor() }}>
                   <div className='cardInfo'>
                     <p className='cardPara'><span className='cardSpan'>Title:</span>{value?.title}</p>
                     <Tooltip title={value?.description} disableHoverListener={value?.description.length <= 200}>
@@ -132,6 +170,13 @@ const Note = () => {
           <EditNote open={openEditNote} handleClose={handleCloseEditNote} selectedNote={selectedNote} />
         </div>
       )}
+
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+        <MenuItem onClick={() => handleFilterChange("all")}>All</MenuItem>
+        <MenuItem onClick={() => handleFilterChange("high")}>High</MenuItem>
+        <MenuItem onClick={() => handleFilterChange("medium")}>Medium</MenuItem>
+        <MenuItem onClick={() => handleFilterChange("low")}>Low</MenuItem>
+      </Menu>
     </div>
   );
 }

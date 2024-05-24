@@ -90,7 +90,7 @@ export default function EditPassword({ open, handleClose, selectedPassword }) {
                     </div>
 
                     <DialogActions>
-                        <Button variant='contained' autoFocus type="submit">
+                        <Button variant='contained' autoFocus type="submit" style={{ marginTop: '10px' }}>
                             Save
                         </Button>
                     </DialogActions>

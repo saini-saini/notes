@@ -78,8 +78,16 @@ const Password = () => {
     };
   }, [user]);
   
-  console.log(passwordData,"passwordData")
-  return (
+  const generateRandomColor = () => {
+    const minBrightness = 200; 
+    const maxBrightness = 255; 
+      const r = Math.floor(Math.random() * (maxBrightness - minBrightness) + minBrightness);
+    const g = Math.floor(Math.random() * (maxBrightness - minBrightness) + minBrightness);
+    const b = Math.floor(Math.random() * (maxBrightness - minBrightness) + minBrightness);
+      const color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
+    return color;
+  };  return (
+
     <div className='passwordContainer'>
       {loading && (
         <Loding />
@@ -94,7 +102,7 @@ const Password = () => {
       <div className='passwordBottom'>
         <div className='password-cardContainer'>
           {passwordData.map((value, index) => (
-            <div className='password-cardWrapper' key={index}>
+            <div className='password-cardWrapper' key={index} style={{ backgroundColor: generateRandomColor() }}>
               <div className='cardInfo'>
                 <p className='cardPara'><span className='cardSpan'>Title:</span>{value?.title}</p>
                 <Tooltip title={value?.password} disableHoverListener={value?.password.length <= 200}>

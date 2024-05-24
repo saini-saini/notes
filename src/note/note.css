@@ -1,102 +1,212 @@
-.noteContainer{
+.noteContainer {
     width: 100%;
-    /* height: calc(100vh - 50px); */
 }
 
-.noteTop{
+.noteTop {
     display: flex;
     justify-content: space-between;
     padding: 20px 50px;
 }
 
-.noteHeading{
+.noteHeading {
     margin: 0px;
     font-weight: 500;
     font-size: 30px;
     font-family: "Jost", sans-serif;
 }
 
-.cardWrapper{
-    /* max-width:300px; */
+.cardWrapper {
     height: 300px;
-    border: 1px solid #8ecae6;
+    border: 1px solid #5fa8d3;
     padding: 20px 30px;
     border-radius: 10px;
-    /* background-color: #8ecae6; */
 }
 
-.description{
-height: 115px;
+.description {
+    height: 115px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
-.cardStatus{
+.cardStatus {
     display: flex;
     justify-content: space-between;
-    padding:20px 0px;
+    padding: 20px 0px;
 }
 
-.cardDate{
+.cardDate {
     margin: 0px;
 }
 
-.cardAction{
+.cardAction {
     display: flex;
-  gap: 30px;
-  padding-top: 20px;
+    gap: 30px;
+    padding-top: 20px;
 
 }
 
-.cardSpan{
-    margin: 0px;
+.cardSpan {
+    margin-right: 7px;
     font-family: "Jost", sans-serif;
     font-weight: 400;
     font-size: 20px;
-    /* text-decoration: underline; */
 }
 
-/* .cardPara{
-    width: 200px;
-    overflow-y: scroll;
-} */
-
-
-.cardContainer{
+.cardContainer {
     gap: 20px;
-    padding: 0px 50px;
+    padding: 0px 50px 20px 50px;
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
+    background-color: #a9def9;
     overflow-y: scroll;
+
     &::-webkit-scrollbar {
         display: none;
     }
 }
 
-.noteBottom{
-    /* height: calc(100vh - 100px); */
+.noteBottom {
     overflow-y: scroll;
+
     &::-webkit-scrollbar {
         display: none;
     }
 }
 
+.filter {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+}
 
+/* 
+.css-z3c6am-MuiFormControl-root-MuiTextField-root{
+    display: none !important;
+} */
 
 
 /*///////////////////////////////////////// create note ///////////////////////////////////////////*/
 
-.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
     min-height: 300px;
     max-height: 450px;
     width: 500px;
     padding: 20px;
 }
 
-.createNoteInput{
+.createNoteInput {
     display: flex;
     gap: 10px;
     flex-direction: column;
 }
 
-.css-10o2lyd-MuiStack-root>.MuiTextField-root{
+.css-10o2lyd-MuiStack-root>.MuiTextField-root {
     min-width: 100% !important;
+}
+
+
+
+/* ///////////////////////////////////////// medis query //////////////////////////////////// */
+
+
+/* mobile view */
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+
+    .cardContainer {
+        gap: 20px;
+        padding: 0px 10px;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        background-color: #a9def9;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    .description {
+        height: 100px;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    .cardStatus {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px 0px;
+    }
+
+    .noteTop {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px 16px;
+    }
+
+    .filter {
+        width: 170px;
+        justify-content: center;
+    }
+
+    /* .noteButton{
+        width: 130px !important;
+    } */
+
+}
+
+/* Tablets and iPads */
+@media only screen and (min-width: 481px) and (max-width: 769px) {
+    .cardContainer {
+        gap: 20px;
+        padding: 0px 50px 20px 50px;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        background-color: #a9def9;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+}
+
+/* small screens and laptops */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    .cardContainer {
+        gap: 20px;
+        padding: 0px 50px 20px 50px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        background-color: #a9def9;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}
+
+/* Desktops and large screens */
+@media only screen and (min-width: 1025px) and (max-width: 1200px) {
+    .description {
+        height: 115px;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
 }

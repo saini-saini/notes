@@ -52,3 +52,20 @@
     font-size: 14px;
   }
   
+
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+    .formWrapper{
+        width: 90%;
+        min-height: 400px;
+        max-width: 500px;
+        padding: 20px 30px;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .formWrapper .input {
+        width: 250px;
+    }
+
+}

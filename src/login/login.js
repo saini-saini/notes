@@ -24,7 +24,7 @@ const Login = () => {
     return errorMessages[code] || 'An error occurred. Please try again.';
   };
 
-  const handleSubmit = async(values) => {
+  const handleSubmit = async (values) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       console.log("User signed in with email and password", userCredential.user);
@@ -71,7 +71,7 @@ const Login = () => {
           <ErrorMessage name="password" component={TextError} />
           <h5>Don't have an account? <Link to={"/"} style={{ color: "#0077b6" }}>Sign up here</Link></h5>
           <Button variant='contained' className='btn' type='submit'>Submit</Button>
-          <Divider variant='middle' style={{color: 'black'}}>Or</Divider>
+          <Divider variant='middle' style={{ color: 'black' }}>Or</Divider>
           <Button variant='outlined' onClick={handleGoogleSignIn} disabled={isSigningInWithGoogle}>
             <img src={googleLogo} alt="Google logo" style={{ width: 20, height: 20, marginRight: 10 }} />
             Sign in with Google
