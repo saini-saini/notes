@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './navBar.css';
-import { Button, Badge, Divider } from '@mui/material';
+import { Button, Badge, Divider, Chip } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseFireStore/config';
 import { signOut } from 'firebase/auth';
@@ -17,6 +17,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import KeyIcon from '@mui/icons-material/Key';
 import { eventEmitter } from '../utils/eventEmitter';
+import EditNote from '../note/editNote';
 
 const NavBar = ({ userName }) => {
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ const NavBar = ({ userName }) => {
   const user = auth.currentUser;
   const [leftDrawerOpen, setLeftDrawerOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
+  const [editNoteOpen, setEditNoteOpen] = useState(false);
+  const [selectedNote, setSelectedNote] = useState(null);
 
   const handleLogOut = async () => {
     try {
@@ -60,6 +63,15 @@ const NavBar = ({ userName }) => {
 
   useEffect(() => {
     fetchNotifications();
+    const noteCreatedSubscription = eventEmitter.subscribe('noteCreated', fetchNotifications);
+    const noteDeletedSubscription = eventEmitter.subscribe('noteDeleted', fetchNotifications);
+    const noteUpdatedSubscription = eventEmitter.subscribe('noteUpdated', fetchNotifications);
+
+    return () => {
+      noteCreatedSubscription();
+      noteDeletedSubscription();
+      noteUpdatedSubscription();
+    };
   }, [user]);
 
   useEffect(() => {
@@ -75,20 +87,14 @@ const NavBar = ({ userName }) => {
     };
   }, []);
 
-  const markAllAsRead = () => {
-    const updatedNotifications = notifications.map(notification => ({ ...notification, isRead: true }));
-    setNotifications(updatedNotifications);
-    setAllRead(true);
+  const handleEditNoteOpen = (note) => {
+    setSelectedNote(note);
+    setEditNoteOpen(true);
   };
 
-  const markAsRead = (notificationId) => {
-    const updatedNotifications = notifications.map(notification => {
-      if (notification.id === notificationId) {
-        return { ...notification, isRead: true };
-      }
-      return notification;
-    });
-    setNotifications(updatedNotifications);
+  const handleEditNoteClose = () => {
+    setEditNoteOpen(false);
+    setSelectedNote(null);
   };
 
   const unreadCount = notifications.filter(notification => !notification.isRead).length;
@@ -96,22 +102,16 @@ const NavBar = ({ userName }) => {
   const NotificationDrawer = (
     <Drawer anchor="right" open={notificationOpen} onClose={toggleNotificationDrawer}>
       <List>
-        <Button onClick={markAllAsRead}>Mark all as read</Button>
-        <Divider ></Divider>
+        <p style={{ marginLeft: '20px', fontWeight: 'bold', fontSize: '20px', color: "#1976D2", display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '10px' }}>Reminder<NotificationsActiveIcon /></p>
+        <Divider></Divider>
         {notifications.map((notification, index) => (
-          <ListItem button key={index} style={{ backgroundColor: allRead || notification.isRead ? 'white' : '#cbe0f3f8' }}>
+          <ListItem button key={index} style={{ backgroundColor: allRead || notification.isRead ? 'white' : '#cbe0f3f8' }} onClick={() => handleEditNoteOpen(notification)}>
             <ListItemIcon>
               <NotificationsActiveIcon />
             </ListItemIcon>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <ListItemText primary={notification.title} secondary={notification.description} />
-              <Button
-                variant='outlined'
-                style={{ width: '150px' }}
-                onClick={() => markAsRead(notification.id)}
-              >
-                Mark as read
-              </Button>
+              <Chip label={notification.priority} style={{ backgroundColor: notification?.priority === "high" ? "red" : notification?.priority === "medium" ? "orange" : "green", color: "white", marginLeft: "5px", width: "80px" }} />
               <Divider style={{ marginTop: '20px' }}></Divider>
             </div>
           </ListItem>
@@ -133,18 +133,17 @@ const NavBar = ({ userName }) => {
           <List>
             <li button onClick={() => navigate('/home')} className={`sideBarButton ${location.pathname === '/home' ? 'sideBarButtonActive' : ''}`}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
-            <EditNoteIcon/>  <ListItemText  primary="Notes" />
+                <EditNoteIcon />  <ListItemText primary="Notes" />
               </div>
             </li>
             <li button onClick={() => navigate('/home/password')} className={`sideBarButton ${location.pathname === '/home/password' ? 'sideBarButtonActive' : ''}`}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-             <KeyIcon/> <ListItemText primary="Password" />
-             </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <KeyIcon /> <ListItemText primary="Password" />
+              </div>
             </li>
             <li className='sideBarButton'>
-            <Button variant='contained' style={{ color: "white" }} onClick={handleLogOut}>Logout</Button>
+              <Button variant='contained' style={{ color: "white" }} onClick={handleLogOut}>Logout</Button>
             </li>
-
           </List>
         </Drawer>
       )}
@@ -160,14 +159,14 @@ const NavBar = ({ userName }) => {
         <Badge badgeContent={unreadCount} color="success">
           <NotificationsOutlinedIcon style={{ cursor: 'pointer' }} onClick={toggleNotificationDrawer} />
         </Badge>
-        
-          <p className='navUserName'>{userName}</p>
-        {!isMobileView && (
-        <Button variant='contained' style={{ color: "white" }} onClick={handleLogOut}>Logout</Button>
-        )}
 
+        <p className='navUserName'>{userName}</p>
+        {!isMobileView && (
+          <Button variant='contained' style={{ color: "white" }} onClick={handleLogOut}>Logout</Button>
+        )}
       </div>
       {NotificationDrawer}
+      {selectedNote && <EditNote open={editNoteOpen} handleClose={handleEditNoteClose} selectedNote={selectedNote} />}
     </div>
   );
 };

@@ -9,6 +9,7 @@ import { useFormik } from 'formik';
 import { eventEmitter } from '../utils/eventEmitter';
 import { dataBase } from '../firebaseFireStore/config';
 import { auth } from '../firebaseFireStore/config';
+import { CreatePasswordValidation } from '../formValidation/formValidation';
 
 export default function CreatePassword({ open, handleClose }) {
   const passwordCollection = collection(dataBase, "password");
@@ -20,6 +21,7 @@ export default function CreatePassword({ open, handleClose }) {
       title: '',
       password: '',
     },
+    validationSchema: CreatePasswordValidation,
     onSubmit: async (values) => {
       const passwordData = {
         ...values,
@@ -63,6 +65,8 @@ export default function CreatePassword({ open, handleClose }) {
               onBlur={formik.handleBlur}
               value={formik.values.title}
               variant="standard"
+              error={formik.touched.title && Boolean(formik.errors.title)}
+              helperText={formik.touched.title && formik.errors.title}
             />
 
             <TextField
@@ -75,6 +79,8 @@ export default function CreatePassword({ open, handleClose }) {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
             />
           </div>
 

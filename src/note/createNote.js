@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { collection, addDoc, getDoc } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import { useFormik } from 'formik';
 import { eventEmitter } from '../utils/eventEmitter';
 import { dataBase } from '../firebaseFireStore/config';
@@ -14,18 +14,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { auth } from '../firebaseFireStore/config';
+import { CreateNoteValidation } from '../formValidation/formValidation';
 
 export default function CreateNote({ open, handleClose }) {
     const notesCollection = collection(dataBase, "notes");
-    const [priority, setPriority] = React.useState('');
     const authData = auth;
     const user = authData.currentUser; 
-    // const [priorityTouched, setPriorityTouched] = React.useState(false); 
-
-    const handleChange = (event) => {
-        setPriority(event.target.value);
-        // setPriorityTouched(true);
-    };
 
     const formik = useFormik({
         initialValues: {
@@ -34,9 +28,8 @@ export default function CreateNote({ open, handleClose }) {
             priority: '',
             date: dayjs(),
         },
-        // validationSchema: CreateNoteValidation, 
+        validationSchema: CreateNoteValidation,
         onSubmit: async (values) => {
-            values.priority = priority;
             if (values.date && dayjs.isDayjs(values.date)) {
                 values.date = values.date.toDate(); 
             }
@@ -51,19 +44,15 @@ export default function CreateNote({ open, handleClose }) {
                 console.log("Document written with ID: ", docRef.id);
                 eventEmitter.dispatch('noteCreated');
                 formik.resetForm();
-                setPriority('');
                 handleClose();
             } catch (e) {
                 console.error("Error adding document: ", e);
             }
         },
-
-
     });
 
     const handleDialogClose = () => {
         formik.resetForm();
-        setPriority('');
         handleClose();
     };
 
@@ -88,8 +77,8 @@ export default function CreateNote({ open, handleClose }) {
                             onBlur={formik.handleBlur}
                             value={formik.values.title}
                             variant="standard"
-                        // error={formik.touched.title && Boolean(formik.errors.title)}
-                        // helperText={formik.touched.title && formik.errors.title}
+                            error={formik.touched.title && Boolean(formik.errors.title)}
+                            helperText={formik.touched.title && formik.errors.title}
                         />
 
                         <TextField
@@ -102,30 +91,33 @@ export default function CreateNote({ open, handleClose }) {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.description}
-                        // error={formik.touched.description && Boolean(formik.errors.description)}
-                        // helperText={formik.touched.description && formik.errors.description}
+                            error={formik.touched.description && Boolean(formik.errors.description)}
+                            helperText={formik.touched.description && formik.errors.description}
                         />
 
-                        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                            <InputLabel id="demo-simple-select-standard-label">Priority</InputLabel>
+                        <FormControl
+                            variant="standard"
+                            sx={{ m: 1, minWidth: 120 }}
+                            error={formik.touched.priority && Boolean(formik.errors.priority)}
+                        >
+                            <InputLabel id="priority-select-label">Priority</InputLabel>
                             <Select
-                                labelId="demo-simple-select-standard-label"
-                                id="demo-simple-select-standard"
-                                value={priority}
-                                onChange={handleChange}
-                                label="Priority"
-                            // error={priorityTouched && !priority && formik.errors.priority} // Check if priority is not selected and field is touched
-                            // onBlur={() => setPriorityTouched(true)} // Ensure priority field is marked as touched onBlur
+                                labelId="priority-select-label"
+                                id="priority-select"
+                                name="priority"
+                                value={formik.values.priority}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
                             >
                                 <MenuItem value={'low'}>Low</MenuItem>
                                 <MenuItem value={'medium'}>Medium</MenuItem>
                                 <MenuItem value={'high'}>High</MenuItem>
                             </Select>
-                            {/* {priorityTouched && !priority && formik.errors.priority && (
-                                <div style={{ color: 'red', fontSize: '0.75rem', marginTop: '8px' }}>
+                            {formik.touched.priority && formik.errors.priority && (
+                                <div style={{ color: 'red', marginTop: '0.5rem' }}>
                                     {formik.errors.priority}
                                 </div>
-                            )} */}
+                            )}
                         </FormControl>
 
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -140,7 +132,7 @@ export default function CreateNote({ open, handleClose }) {
                     </div>
 
                     <DialogActions>
-                        <Button variant='contained' autoFocus type="submit" style={{marginTop: '10px'}}>
+                        <Button variant='contained' autoFocus type="submit" style={{ marginTop: '10px' }}>
                             Save
                         </Button>
                     </DialogActions>
@@ -149,5 +141,3 @@ export default function CreateNote({ open, handleClose }) {
         </React.Fragment>
     );
 }
-
-

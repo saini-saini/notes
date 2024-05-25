@@ -1,0 +1,32 @@
+.container input {
+  display: none;
+}
+.pin {
+  width: 15px;
+  height: auto;
+  transform: rotate(35deg);
+}
+.container {
+  width: 45px;
+  height: 45px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.container input:checked ~ .pin {
+  fill: rgb(15, 15, 15);
+  stroke: white;
+}
+.container input:checked ~ .pin line {
+  stroke: rgb(12, 12, 12);
+}
+.container input:checked ~ .pin path {
+  stroke: rgb(19, 19, 19);
+}
+
+.container:active {
+  transform: scale(0.9);
+}
