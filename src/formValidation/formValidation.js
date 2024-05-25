@@ -29,3 +29,11 @@ export const CreatePasswordValidation = Yup.object({
     title: Yup.string().required("Title is required"),
     password: Yup.string().required("Password is required"),
 })
+
+
+//////////// password verification //////////////
+
+export const PasswordVerificationSchema = Yup.object({
+    password: Yup.string().required('Password is required'),
+
+})

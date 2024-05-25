@@ -56,3 +56,17 @@
     font-family: "Jost", sans-serif;
     font-weight: 500;
 }
+
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+    .passwordWrapper {
+        width: 300px;
+    }
+
+    .input {
+        width: 270px;
+    }
+
+    .submit {
+        width: 270px;
+    }
+}

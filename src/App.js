@@ -8,6 +8,7 @@ import Login from "./login/login";
 import { auth } from "./firebaseFireStore/config";
 import { useEffect, useState } from "react";
 import PageNotFound from "./pageNoteFound/pageNotFound";
+import PasswordVerification from './passwordVerification/passwordVerification'
 
 function App() {
   const [userName, setUserName] = useState("");
@@ -46,6 +47,7 @@ function App() {
           {/* <Route element={<PrivateRoute isAuthenticated={!!userName} />} > */}
           <Route path="/home" element={<Layout userName={userName} />}>
             <Route index element={<Note />} />
+            <Route path="password-verification" element={<PasswordVerification />} />
             <Route path="password" element={<Password />} />
           </Route>
           {/* </Route> */}

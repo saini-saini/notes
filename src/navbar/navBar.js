@@ -151,7 +151,7 @@ const NavBar = ({ userName }) => {
       {!isMobileView && (
         <div className='navBarLeft'>
           <li className={`navButton ${location.pathname === '/home' ? 'active' : ''}`} onClick={() => navigate('/home')}>Notes</li>
-          <li className={`navButton ${location.pathname === '/home/password' ? 'active' : ''}`} onClick={() => navigate('/home/password')}>Password</li>
+          <li className={`navButton ${location.pathname === '/home/password' ? 'active' : ''}`} onClick={() => navigate('/home/password-verification')}>Password</li>
         </div>
       )}
 
