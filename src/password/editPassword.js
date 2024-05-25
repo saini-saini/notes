@@ -63,7 +63,7 @@ export default function EditPassword({ open, handleClose, selectedPassword }) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" style={{ display: "flex", justifyContent: "center", fontSize: '23px' }}>
                     {"Edit Password"}
                 </DialogTitle>
                 <form onSubmit={formik.handleSubmit}>
@@ -72,7 +72,7 @@ export default function EditPassword({ open, handleClose, selectedPassword }) {
                             id="standard-basic"
                             label={
                                 <Typography>
-                                    Title<span style={{ color: 'red' }}>*</span> 
+                                    Title<span style={{ color: 'red' }}>*</span>
                                 </Typography>
                             }
                             name="title"
@@ -90,7 +90,7 @@ export default function EditPassword({ open, handleClose, selectedPassword }) {
                             maxRows={4}
                             label={
                                 <Typography>
-                                    Password<span style={{ color: 'red' }}>*</span> 
+                                    Password<span style={{ color: 'red' }}>*</span>
                                 </Typography>
                             }
                             variant="standard"

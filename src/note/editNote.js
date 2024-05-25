@@ -82,7 +82,7 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" style={{display:"flex", justifyContent:"center",fontSize:'23px'}}>
                     {"Edit Note"}
                 </DialogTitle>
                 <form onSubmit={formik.handleSubmit}>

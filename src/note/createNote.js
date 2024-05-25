@@ -64,7 +64,7 @@ export default function CreateNote({ open, handleClose }) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" style={{display:"flex", justifyContent:"center",fontSize:'23px'}}>
                     {"Create Note"}
                 </DialogTitle>
                 <form onSubmit={formik.handleSubmit}>
