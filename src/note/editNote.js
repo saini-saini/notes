@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
-import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { eventEmitter } from '../utils/eventEmitter';
@@ -89,7 +89,11 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                     <div className='createNoteInput'>
                         <TextField
                             id="standard-basic"
-                            label="Title"
+                            label={
+                                <Typography>
+                                    Title<span style={{ color: 'red' }}>*</span> 
+                                </Typography>
+                            }
                             name="title"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -103,7 +107,11 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                             id="standard-multiline-flexible"
                             multiline
                             maxRows={4}
-                            label="Description"
+                            label={
+                                <Typography>
+                                    Description<span style={{ color: 'red' }}>*</span> 
+                                </Typography>
+                            }
                             variant="standard"
                             name="description"
                             onChange={formik.handleChange}
@@ -118,7 +126,11 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                             sx={{ m: 1, minWidth: 120 }}
                             error={formik.touched.priority && Boolean(formik.errors.priority)}
                         >
-                            <InputLabel id="priority-select-label">Priority</InputLabel>
+                              <InputLabel id="priority-select-label">{
+                                <Typography>
+                                    Priority<span style={{ color: 'red' }}>*</span>
+                                </Typography>
+                            }</InputLabel>
                             <Select
                                 labelId="priority-select-label"
                                 id="priority-select"
@@ -128,7 +140,6 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                                     formik.handleChange(event);
                                 }}
                                 onBlur={formik.handleBlur}
-                                label="Priority"
                             >
                                 <MenuItem value={'low'}>Low</MenuItem>
                                 <MenuItem value={'medium'}>Medium</MenuItem>
@@ -144,7 +155,11 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DemoContainer components={['DatePicker']}>
                                 <DatePicker
-                                    label="Reminder"
+                                    label={
+                                        <Typography>
+                                            Reminder<span style={{ color: 'red' }}>*</span> 
+                                        </Typography>
+                                    }
                                     value={formik.values.date}
                                     onChange={(date) => formik.setFieldValue('date', date)}
                                     renderInput={(params) => (

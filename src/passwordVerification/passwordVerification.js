@@ -43,7 +43,7 @@ const PasswordVerification = () => {
                 {({ isSubmitting }) => (
                     <Form className='passwordWrapper'>
                         <p className='title'>Enter password</p>
-                        <Field type="password" name="password" placeholder="Enter password" className="input" />
+                        <Field type="text" name="password" placeholder="Enter password" className="input" />
                         <ErrorMessage name="password" component={TextError} />
                         {firebaseError && <div className="error-message">{firebaseError}</div>}
                         <Button

@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
-import { TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import { collection, addDoc } from 'firebase/firestore';
 import { useFormik } from 'formik';
 import { eventEmitter } from '../utils/eventEmitter';
@@ -59,7 +59,11 @@ export default function CreatePassword({ open, handleClose }) {
           <div className='createNoteInput'>
             <TextField
               id="standard-basic"
-              label="Title"
+              label={
+                <Typography>
+                    Title<span style={{ color: 'red' }}>*</span> 
+                </Typography>
+            }
               name="title"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -73,7 +77,11 @@ export default function CreatePassword({ open, handleClose }) {
               id="standard-multiline-flexible"
               multiline
               maxRows={4}
-              label="Password"
+              label={
+                <Typography>
+                    Password<span style={{ color: 'red' }}>*</span> 
+                </Typography>
+            }
               variant="standard"
               name="password"
               onChange={formik.handleChange}
