@@ -11,6 +11,7 @@ import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/fire
 import { dataBase } from '../firebaseFireStore/config';
 import Loding from '../loader/loder';
 import EditPassword from './editPassword';
+import { Empty } from 'antd';
 
 
 const Password = () => {
@@ -77,53 +78,56 @@ const Password = () => {
       updatePassword();
     };
   }, [user]);
-  
+
   const generateRandomColor = () => {
-    const minBrightness = 200; 
-    const maxBrightness = 255; 
-      const r = Math.floor(Math.random() * (maxBrightness - minBrightness) + minBrightness);
+    const minBrightness = 200;
+    const maxBrightness = 255;
+    const r = Math.floor(Math.random() * (maxBrightness - minBrightness) + minBrightness);
     const g = Math.floor(Math.random() * (maxBrightness - minBrightness) + minBrightness);
     const b = Math.floor(Math.random() * (maxBrightness - minBrightness) + minBrightness);
-      const color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
+    const color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
     return color;
-  };  return (
+  }; return (
 
     <div className='passwordContainer'>
       {loading && (
         <Loding />
       )}
       {!loading && (
-          <div>
-      <div className='passwordTop'>
-        <p className='passwordHeading'>Password</p>
-        <Button variant="contained" onClick={handleOpenCreatePassword}><AddIcon />Create</Button>
-      </div>
+        <div>
+          <div className='passwordTop'>
+            <p className='passwordHeading'>Password</p>
+            <Button variant="contained" onClick={handleOpenCreatePassword}><AddIcon />Create</Button>
+          </div>
 
-      <div className='passwordBottom'>
-        <div className='password-cardContainer'>
-          {passwordData.map((value, index) => (
-            <div className='password-cardWrapper' key={index} style={{ backgroundColor: generateRandomColor() }}>
-              <div className='cardInfo'>
-                <p className='cardPara'><span className='cardSpan'>Title:</span>{value?.title}</p>
-                <Tooltip title={value?.password} disableHoverListener={value?.password.length <= 200}>
-                  <p className='cardPara password-description'>
-                    <span className='cardSpan description'>Password:</span>
-                    {value?.password.length > 200 ? `${value.password.substring(0, 200)}...` : value.password}
-                  </p>
-                </Tooltip>
-              </div>
-              <div className='cardAction'>
-                <Button variant="outlined" onClick={() => handleOpenPassword(value)}><EditIcon /></Button>
-                <Button variant="outlined" onClick={() => handleDelete(value.id)}><DeleteIcon /></Button>
-              </div>
-            </div>
-          ))}
+          <div className='passwordBottom'>
+            {
+              passwordData?.length === 0 ? <p className='notePara'><Empty className='noteData' /></p> :
+                <div className='password-cardContainer'>
+                  {passwordData.map((value, index) => (
+                    <div className='password-cardWrapper' key={index} style={{ backgroundColor: generateRandomColor() }}>
+                      <div className='cardInfo'>
+                        <p className='cardPara'><span className='cardSpan'>Title:</span>{value?.title}</p>
+                        <Tooltip title={value?.password} disableHoverListener={value?.password.length <= 200}>
+                          <p className='cardPara password-description'>
+                            <span className='cardSpan description'>Password:</span>
+                            {value?.password.length > 200 ? `${value.password.substring(0, 200)}...` : value.password}
+                          </p>
+                        </Tooltip>
+                      </div>
+                      <div className='cardAction'>
+                        <Button variant="outlined" onClick={() => handleOpenPassword(value)}><EditIcon /></Button>
+                        <Button variant="outlined" onClick={() => handleDelete(value.id)}><DeleteIcon /></Button>
+                      </div>
+                    </div>
+                  ))}
 
+                </div>
+            }
+          </div>
+          <CreatePassword open={openCreatePassword} handleClose={handleCloseCreatePassword} />
+          <EditPassword open={openEditPassword} handleClose={handleClosePassword} selectedPassword={selectedPassword} />
         </div>
-      </div>
-      <CreatePassword open={openCreatePassword} handleClose={handleCloseCreatePassword} />
-      <EditPassword open={openEditPassword} handleClose={handleClosePassword} selectedPassword={selectedPassword} />
-      </div>
       )}
     </div>
   )

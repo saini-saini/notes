@@ -13,6 +13,7 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmit, setIsSubmit] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -28,6 +29,7 @@ const SignUp = () => {
   };
 
   const handleSubmit = async (values) => {
+    setIsSubmit(true);
     const token = uuidv4();
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
@@ -40,6 +42,8 @@ const SignUp = () => {
     } catch (error) {
       setErrorMessage(getErrorMessage(error.code));
       console.error("Error creating user: ", error);
+    }finally {
+      setIsSubmit(false);
     }
   };
 
@@ -72,7 +76,7 @@ const SignUp = () => {
           </div>
           <ErrorMessage name="password" component={TextError} />
           <h5>Already have an account? <Link to={"/login"} style={{ color: "#0077b6" }}>Log in here</Link></h5>
-          <Button variant='contained' className='btn' type='submit'>Submit</Button>
+          <Button variant='contained' className='btn' type='submit' disabled={isSubmit}>Submit</Button>
         </Form>
       </Formik>
     </div>

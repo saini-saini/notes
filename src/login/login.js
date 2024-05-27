@@ -7,13 +7,15 @@ import { LoginValidation } from '../formValidation/formValidation';
 import TextError from '../formValidation/errorMessage';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import googleLogo from "../images/google.png";
-import { auth, provider } from '../firebaseFireStore/config';
+import { auth, provider, dataBase } from '../firebaseFireStore/config';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 const Login = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLogin, setIsLogin] = useState(false);
   const [isSigningInWithGoogle, setIsSigningInWithGoogle] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -28,6 +30,7 @@ const Login = () => {
   };
 
   const handleSubmit = async (values) => {
+    setIsLogin(true);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
       console.log("User signed in with email and password", userCredential.user);
@@ -35,6 +38,8 @@ const Login = () => {
     } catch (error) {
       setErrorMessage(getErrorMessage(error.code));
       console.error("Error signing in: ", error);
+    } finally {
+      setIsLogin(false);
     }
   };
 
@@ -81,7 +86,7 @@ const Login = () => {
           </div>
           <ErrorMessage name="password" component={TextError} />
           <h5>Don't have an account? <Link to={"/"} style={{ color: "#0077b6" }}>Sign up here</Link></h5>
-          <Button variant='contained' className='btn' type='submit'>Submit</Button>
+          <Button variant='contained' className='btn' type='submit' disabled={isLogin}>Submit</Button>
           <Divider variant='middle' style={{ color: 'black' }}>Or</Divider>
           <Button variant='outlined' onClick={handleGoogleSignIn} disabled={isSigningInWithGoogle}>
             <img src={googleLogo} alt="Google logo" style={{ width: 20, height: 20, marginRight: 10 }} />

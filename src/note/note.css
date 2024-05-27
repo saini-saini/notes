@@ -92,6 +92,14 @@
     display: flex;
 }
 
+
+.noteData{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
 /* 
 .css-z3c6am-MuiFormControl-root-MuiTextField-root{
     display: none !important;

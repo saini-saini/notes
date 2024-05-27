@@ -12,6 +12,8 @@ import { eventEmitter } from '../utils/eventEmitter';
 import Loding from '../loader/loder';
 import { auth } from '../firebaseFireStore/config';
 import priorityIcon from "../images/prioritize.png";
+import { Empty } from 'antd';
+
 
 const Note = () => {
   const [openCreateNote, setOpenCreateNote] = useState(false);
@@ -138,32 +140,35 @@ const Note = () => {
             <Button variant="contained" onClick={handleOpenCreateNote} className='noteButton'><AddIcon />Create</Button>
           </div>
           <div className='noteBottom'>
-            <div className='cardContainer'>
-              {filteredData.map((value, index) => (
-                <div className='cardWrapper' key={index} style={{ backgroundColor: generateRandomColor() }}>
-                  <div className='cardInfo'>
-                    <p className='cardPara'><span className='cardSpan'>Title:</span>{value?.title}</p>
-                    <Tooltip title={value?.description} disableHoverListener={value?.description.length <= 200}>
-                      <p className='cardPara description'>
-                        <span className='cardSpan description'>Description:</span>
-                        {value?.description.length > 200 ? `${value.description.substring(0, 200)}...` : value.description}
-                      </p>
-                    </Tooltip>
-                  </div>
-                  <div className='cardAction'>
-                    <Button variant="outlined" onClick={() => handleOpenEditNote(value)}><EditIcon /></Button>
-                    <Button variant="outlined" onClick={() => handleDelete(value.id)}><DeleteIcon /></Button>
-                  </div>
-                  <div className='cardStatus'>
-                    <div>
-                      <span className='cardSpan'>Priority:</span>
-                      <Chip style={{ backgroundColor: value?.priority === "high" ? "red" : value?.priority === "medium" ? "orange" : "green", color: "white", marginLeft: "5px" }} label={value?.priority} />
+            {
+              filteredData?.length === 0 ? <p className='notePara'><Empty className='noteData' /></p> :
+                <div className='cardContainer'>
+                  {filteredData.map((value, index) => (
+                    <div className='cardWrapper' key={index} style={{ backgroundColor: generateRandomColor() }}>
+                      <div className='cardInfo'>
+                        <p className='cardPara'><span className='cardSpan'>Title:</span>{value?.title}</p>
+                        <Tooltip title={value?.description} disableHoverListener={value?.description.length <= 200}>
+                          <p className='cardPara description'>
+                            <span className='cardSpan description'>Description:</span>
+                            {value?.description.length > 200 ? `${value.description.substring(0, 200)}...` : value.description}
+                          </p>
+                        </Tooltip>
+                      </div>
+                      <div className='cardAction'>
+                        <Button variant="outlined" onClick={() => handleOpenEditNote(value)}><EditIcon /></Button>
+                        <Button variant="outlined" onClick={() => handleDelete(value.id)}><DeleteIcon /></Button>
+                      </div>
+                      <div className='cardStatus'>
+                        <div>
+                          <span className='cardSpan'>Priority:</span>
+                          <Chip style={{ backgroundColor: value?.priority === "high" ? "red" : value?.priority === "medium" ? "orange" : "green", color: "white", marginLeft: "5px" }} label={value?.priority} />
+                        </div>
+                        <p className='cardDate'>{formatDate(value?.date?.seconds)}</p>
+                      </div>
                     </div>
-                    <p className='cardDate'>{formatDate(value?.date?.seconds)}</p>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+            }
           </div>
           <CreateNote open={openCreateNote} handleClose={handleCloseCreateNote} />
           <EditNote open={openEditNote} handleClose={handleCloseEditNote} selectedNote={selectedNote} />
