@@ -28,7 +28,7 @@
 
 .layoutBottom{
     width: 100%;
-    height: calc(100vh - 50px);
+    height: 100vh;
     margin-top: 60px;
     background-color: #a9def9;
 } 
