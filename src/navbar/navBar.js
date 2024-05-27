@@ -104,7 +104,7 @@ const NavBar = () => {
   const unreadCount = notifications.filter(notification => !notification.isRead).length;
 
   const NotificationDrawer = (
-    <Drawer anchor="right" open={notificationOpen} onClose={toggleNotificationDrawer}>
+    <Drawer anchor="right" open={notificationOpen} onClose={toggleNotificationDrawer} classes={{ paper: 'notification-drawer' }}>
       <List>
         <p style={{ marginLeft: '20px', fontWeight: 'bold', fontSize: '20px', color: "#1976D2", display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '10px' }}>Reminder<NotificationsActiveIcon /></p>
         <Divider></Divider>
@@ -133,7 +133,7 @@ const NavBar = () => {
       {isMobileView && <MenuIcon onClick={toggleLeftDrawer} style={{ marginLeft: '30px' }} />}
 
       {isMobileView && (
-        <Drawer anchor="left" open={leftDrawerOpen} onClose={toggleLeftDrawer}>
+        <Drawer anchor="left" open={leftDrawerOpen} onClose={toggleLeftDrawer} classes={{ paper: 'left-drawer' }}>
           <List>
             <li button onClick={() => navigate('/home')} className={`sideBarButton ${location.pathname === '/home' ? 'sideBarButtonActive' : ''}`}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
