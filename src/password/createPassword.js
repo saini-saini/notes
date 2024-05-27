@@ -51,6 +51,7 @@ export default function CreatePassword({ open, handleClose }) {
         onClose={handleDialogClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        classes={{ paper: 'dialog' }}
       >
         <DialogTitle id="alert-dialog-title" style={{display:"flex", justifyContent:"center",fontSize:'23px'}}>
           {"Create Password"}

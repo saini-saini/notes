@@ -62,6 +62,7 @@ export default function EditPassword({ open, handleClose, selectedPassword }) {
                 onClose={handleDialogClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                classes={{ paper: 'dialog' }}
             >
                 <DialogTitle id="alert-dialog-title" style={{ display: "flex", justifyContent: "center", fontSize: '23px' }}>
                     {"Edit Password"}
