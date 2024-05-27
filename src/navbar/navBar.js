@@ -47,7 +47,7 @@ const NavBar = ({ userName }) => {
   const fetchNotifications = async () => {
     if (user) {
       const notesCollection = collection(dataBase, 'notes');
-      const notesQuery = query(notesCollection, where('email', '==', user.email));
+      const notesQuery = query(notesCollection, where('email', '==', user?.email));
       const notesSnapshot = await getDocs(notesQuery);
       const notesList = notesSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
       const today = new Date();

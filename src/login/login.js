@@ -8,11 +8,14 @@ import TextError from '../formValidation/errorMessage';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import googleLogo from "../images/google.png";
 import { auth, provider } from '../firebaseFireStore/config';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Login = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
   const [isSigningInWithGoogle, setIsSigningInWithGoogle] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const errorMessages = {
     'auth/invalid-credential': '⚠️Invalid credentials.',
@@ -53,6 +56,9 @@ const Login = () => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  }
   return (
     <div className='formContainer'>
       <Formik
@@ -67,7 +73,12 @@ const Login = () => {
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <Field type="text" name="email" placeholder="Email" className="input" />
           <ErrorMessage name="email" component={TextError} />
-          <Field type="password" name="password" placeholder="Password" className="input" />
+          <div className="password-field">
+            <Field type={showPassword ? "text" : "password"} name="password" placeholder="Password" className="input" />
+            <span onClick={togglePasswordVisibility} className="toggle-password-visibility">
+              {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            </span>
+          </div>
           <ErrorMessage name="password" component={TextError} />
           <h5>Don't have an account? <Link to={"/"} style={{ color: "#0077b6" }}>Sign up here</Link></h5>
           <Button variant='contained' className='btn' type='submit'>Submit</Button>
