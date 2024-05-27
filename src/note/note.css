@@ -193,9 +193,9 @@
         justify-content: center;
     }
 
-    /* .noteButton{
-        width: 130px !important;
-    } */
+    .css-10o2lyd-MuiStack-root>.MuiTextField-root {
+        min-width: 100% !important;
+    }
 
 }
 
@@ -212,6 +212,9 @@
         &::-webkit-scrollbar {
             display: none;
         }
+    }
+    .css-10o2lyd-MuiStack-root>.MuiTextField-root {
+        min-width: 100% !important;
     }
 
 }

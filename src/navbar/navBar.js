@@ -140,7 +140,7 @@ const NavBar = () => {
                 <EditNoteIcon />  <ListItemText primary="Notes" />
               </div>
             </li>
-            <li button onClick={() => navigate('/home/password')} className={`sideBarButton ${location.pathname === '/home/password' ? 'sideBarButtonActive' : ''}`}>
+            <li button onClick={() => navigate('/home/create-password-verification')} className={`sideBarButton ${location.pathname === '/home/password' ? 'sideBarButtonActive' : ''}`}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <KeyIcon /> <ListItemText primary="Password" />
               </div>
