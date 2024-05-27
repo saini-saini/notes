@@ -19,13 +19,13 @@ import KeyIcon from '@mui/icons-material/Key';
 import { eventEmitter } from '../utils/eventEmitter';
 import EditNote from '../note/editNote';
 
-const NavBar = ({ userName }) => {
+const NavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [allRead, setAllRead] = useState(false);
-  const user = auth.currentUser;
+  const [userName, setUserName] = useState(auth.currentUser?.displayName || '');
   const [leftDrawerOpen, setLeftDrawerOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const [editNoteOpen, setEditNoteOpen] = useState(false);
@@ -45,9 +45,9 @@ const NavBar = ({ userName }) => {
   };
 
   const fetchNotifications = async () => {
-    if (user) {
+    if (auth.currentUser) {
       const notesCollection = collection(dataBase, 'notes');
-      const notesQuery = query(notesCollection, where('email', '==', user?.email));
+      const notesQuery = query(notesCollection, where('email', '==', auth.currentUser.email));
       const notesSnapshot = await getDocs(notesQuery);
       const notesList = notesSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
       const today = new Date();
@@ -66,13 +66,17 @@ const NavBar = ({ userName }) => {
     const noteCreatedSubscription = eventEmitter.subscribe('noteCreated', fetchNotifications);
     const noteDeletedSubscription = eventEmitter.subscribe('noteDeleted', fetchNotifications);
     const noteUpdatedSubscription = eventEmitter.subscribe('noteUpdated', fetchNotifications);
+    const userSignedUpSubscription = eventEmitter.subscribe('userSignedUp', (newUserName) => {
+      setUserName(newUserName);
+    });
 
     return () => {
       noteCreatedSubscription();
       noteDeletedSubscription();
       noteUpdatedSubscription();
+      userSignedUpSubscription();
     };
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {

@@ -10,6 +10,7 @@ import { SignUpValidation } from '../formValidation/formValidation';
 import TextError from '../formValidation/errorMessage';
 import { v4 as uuidv4 } from 'uuid';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { eventEmitter } from '../utils/eventEmitter';
 
 const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState('');
@@ -38,11 +39,12 @@ const SignUp = () => {
         token: token,
       });
       console.log("User created with email and password", userCredential.user);
+      eventEmitter.dispatch('userSignedUp', values.name);
       navigate("/home");
     } catch (error) {
       setErrorMessage(getErrorMessage(error.code));
       console.error("Error creating user: ", error);
-    }finally {
+    } finally {
       setIsSubmit(false);
     }
   };
