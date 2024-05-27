@@ -76,15 +76,17 @@ const Login = () => {
         <Form className='formWrapper'>
           <h1 style={{ color: '#1976D2' }}>Sign In</h1>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <Field type="text" name="email" placeholder="Email" className="input" />
-          <ErrorMessage name="email" component={TextError} />
+          <span>
+            <Field type="text" name="email" placeholder="Email" className="input" />
+            <ErrorMessage name="email" component={TextError} />
+          </span>
           <div className="password-field">
             <Field type={showPassword ? "text" : "password"} name="password" placeholder="Password" className="input" />
             <span onClick={togglePasswordVisibility} className="toggle-password-visibility">
               {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
             </span>
+            <ErrorMessage name="password" component={TextError} />
           </div>
-          <ErrorMessage name="password" component={TextError} />
           <h5>Don't have an account? <Link to={"/"} style={{ color: "#0077b6" }}>Sign up here</Link></h5>
           <Button variant='contained' className='btn' type='submit' disabled={isLogin}>Submit</Button>
           <Divider variant='middle' style={{ color: 'black' }}>Or</Divider>

@@ -16,6 +16,7 @@ import dayjs from 'dayjs';
 import { auth } from '../firebaseFireStore/config';
 import { CreateNoteValidation } from '../formValidation/formValidation';
 import './note.css'
+
 export default function CreateNote({ open, handleClose }) {
     const notesCollection = collection(dataBase, "notes");
     const authData = auth;
@@ -56,6 +57,12 @@ export default function CreateNote({ open, handleClose }) {
         handleClose();
     };
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+        }
+    };
+
     return (
         <React.Fragment>
             <Dialog
@@ -68,7 +75,7 @@ export default function CreateNote({ open, handleClose }) {
                 <DialogTitle id="alert-dialog-title" style={{display:"flex", justifyContent:"center",fontSize:'23px'}}>
                     {"Create Note"}
                 </DialogTitle>
-                <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={formik.handleSubmit} onKeyDown={handleKeyDown}>
                     <div className='createNoteInput'>
                         <TextField
                             id="standard-basic"

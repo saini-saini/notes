@@ -17,7 +17,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import KeyIcon from '@mui/icons-material/Key';
 import { eventEmitter } from '../utils/eventEmitter';
-import EditNote from '../note/editNote';
+import ViewNote from '../note/viewNote';
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -170,7 +170,8 @@ const NavBar = () => {
         )}
       </div>
       {NotificationDrawer}
-      {selectedNote && <EditNote open={editNoteOpen} handleClose={handleEditNoteClose} selectedNote={selectedNote} />}
+      {selectedNote && <ViewNote open={editNoteOpen} handleClose={handleEditNoteClose} selectedNote={selectedNote} />}
+
     </div>
   );
 };

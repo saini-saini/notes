@@ -33,7 +33,7 @@ export default function EditNote({ open, handleClose, selectedNote }) {
             title: '',
             description: '',
             priority: '',
-            date: null,
+            date: dayjs(),
         },
         validationSchema: EditNoteValidation,
         onSubmit: async (values) => {
@@ -65,7 +65,7 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                 title: selectedNote.title,
                 description: selectedNote.description,
                 priority: selectedNote.priority,
-                date: selectedNote.date ? dayjs(selectedNote.date.toDate()) : null,
+                date: selectedNote.date ? dayjs(selectedNote.date.toDate()) : dayjs(),
             });
         }
     }, [open, selectedNote]);
@@ -73,6 +73,12 @@ export default function EditNote({ open, handleClose, selectedNote }) {
     const handleDialogClose = () => {
         formik.resetForm();
         handleClose();
+    };
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+        }
     };
 
     return (
@@ -84,16 +90,16 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                 aria-describedby="alert-dialog-description"
                 classes={{ paper: 'dialog' }}
             >
-                <DialogTitle id="alert-dialog-title" style={{display:"flex", justifyContent:"center",fontSize:'23px'}}>
+                <DialogTitle id="alert-dialog-title" style={{ display: "flex", justifyContent: "center", fontSize: '23px' }}>
                     {"Edit Note"}
                 </DialogTitle>
-                <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={formik.handleSubmit} onKeyDown={handleKeyDown}>
                     <div className='createNoteInput'>
                         <TextField
                             id="standard-basic"
                             label={
                                 <Typography>
-                                    Title<span style={{ color: 'red' }}>*</span> 
+                                    Title<span style={{ color: 'red' }}>*</span>
                                 </Typography>
                             }
                             name="title"
@@ -111,7 +117,7 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                             maxRows={4}
                             label={
                                 <Typography>
-                                    Description<span style={{ color: 'red' }}>*</span> 
+                                    Description<span style={{ color: 'red' }}>*</span>
                                 </Typography>
                             }
                             variant="standard"
@@ -128,7 +134,7 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                             sx={{ m: 1, minWidth: 120 }}
                             error={formik.touched.priority && Boolean(formik.errors.priority)}
                         >
-                              <InputLabel id="priority-select-label">{
+                            <InputLabel id="priority-select-label">{
                                 <Typography>
                                     Priority<span style={{ color: 'red' }}>*</span>
                                 </Typography>
@@ -159,7 +165,7 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                                 <DatePicker
                                     label={
                                         <Typography>
-                                            Reminder<span style={{ color: 'red' }}>*</span> 
+                                            Reminder<span style={{ color: 'red' }}>*</span>
                                         </Typography>
                                     }
                                     value={formik.values.date}

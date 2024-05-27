@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import * as Yup from 'yup'
 
 
@@ -20,6 +21,7 @@ export const CreateNoteValidation = Yup.object({
     title: Yup.string().required("Title is required"),
     description: Yup.string().required("Description is required"),
     priority: Yup.string().required("Priority is required"),
+    date: Yup.mixed().test('is-dayjs', 'Date is required', value => dayjs.isDayjs(value)), // Custom validation for dayjs object
 })
 
 

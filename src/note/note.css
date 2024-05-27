@@ -112,7 +112,6 @@
     max-height: 500px;
     width: 500px;
     padding: 20px;
-    /* Add any additional styles you want */
 }
 
 .createNoteInput {
@@ -125,7 +124,26 @@
     min-width: 100% !important;
 }
 
+/*//////////////////////////////// view card ///////////////////////////////////////////// */
 
+.view-cardWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25px;
+}
+
+
+.view-cardSpan {
+    margin-right: 7px;
+    font-family: "Jost", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.view-dialog{
+    width: 500px;
+}
 
 /* ///////////////////////////////////////// medis query //////////////////////////////////// */
 
