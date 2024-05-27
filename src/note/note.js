@@ -22,7 +22,6 @@ const Note = () => {
   const [loading, setLoading] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [filter, setFilter] = useState("all");
-
   const authData = auth;
   const user = authData.currentUser;
   const notesCollection = collection(dataBase, "notes");
