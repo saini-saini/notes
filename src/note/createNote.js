@@ -15,7 +15,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { auth } from '../firebaseFireStore/config';
 import { CreateNoteValidation } from '../formValidation/formValidation';
-
+import './note.css'
 export default function CreateNote({ open, handleClose }) {
     const notesCollection = collection(dataBase, "notes");
     const authData = auth;
@@ -63,6 +63,7 @@ export default function CreateNote({ open, handleClose }) {
                 onClose={handleDialogClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                classes={{ paper: 'dialog' }}
             >
                 <DialogTitle id="alert-dialog-title" style={{display:"flex", justifyContent:"center",fontSize:'23px'}}>
                     {"Create Note"}

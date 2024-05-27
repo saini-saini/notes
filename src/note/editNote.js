@@ -6,6 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import './note.css';
 import { eventEmitter } from '../utils/eventEmitter';
 import { doc, updateDoc } from 'firebase/firestore';
 import { dataBase } from '../firebaseFireStore/config';
@@ -81,6 +82,7 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                 onClose={handleDialogClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                classes={{ paper: 'dialog' }}
             >
                 <DialogTitle id="alert-dialog-title" style={{display:"flex", justifyContent:"center",fontSize:'23px'}}>
                     {"Edit Note"}
