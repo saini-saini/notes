@@ -9,6 +9,8 @@ import PageNotFound from "./pageNoteFound/pageNotFound";
 import { auth } from "./firebaseFireStore/config";
 import "./App.css";
 import Loding from "./loader/loder";
+import PasswordVerification from "./passwordVerification/passwordVerification";
+import EnterPasswordVerification from "./passwordVerification/enterPin";
 function App() {
   const [userName, setUserName] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -67,6 +69,8 @@ function App() {
             }
           >
             <Route index element={<Note />} />
+            <Route path="create-password-verification" element={<PasswordVerification />} />
+            <Route path="password-verification" element={<EnterPasswordVerification />} />
             <Route path="password" element={<Password />} />
           </Route>
 
