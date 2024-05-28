@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './navBar.css';
-import { Button, Badge, Divider, Chip, Tooltip } from '@mui/material';
+import { Button, Badge, Divider, Chip } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseFireStore/config';
 import { signOut } from 'firebase/auth';
@@ -102,12 +102,24 @@ const NavBar = () => {
   };
 
   const markAsRead = async (notificationId) => {
+    setNotifications(prevNotifications =>
+      prevNotifications.map(notification =>
+        notification.id === notificationId ? { ...notification, isRead: true } : notification
+      )
+    );
+
     const notificationRef = doc(dataBase, 'notes', notificationId);
     await updateDoc(notificationRef, { isRead: true });
     fetchNotifications();
   };
 
   const markAsUnread = async (notificationId) => {
+    setNotifications(prevNotifications =>
+      prevNotifications.map(notification =>
+        notification.id === notificationId ? { ...notification, isRead: false } : notification
+      )
+    );
+
     const notificationRef = doc(dataBase, 'notes', notificationId);
     await updateDoc(notificationRef, { isRead: false });
     fetchNotifications();
