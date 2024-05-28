@@ -11,7 +11,7 @@ import { dataBase } from '../firebaseFireStore/config';
 import { eventEmitter } from '../utils/eventEmitter';
 import Loding from '../loader/loder';
 import { auth } from '../firebaseFireStore/config';
-import priorityIcon from "../images/prioritize.png";
+import priorityIcon from "../images/filter (2).png";
 import { Empty } from 'antd';
 
 
@@ -130,14 +130,14 @@ const Note = () => {
           <div className='noteTop'>
             <p className='noteHeading'>Notes</p>
             <div className='filter'>
-              <p>Filter</p>
+              {/* <p>Filter</p> */}
               <Tooltip title="Priority">
                 <Button variant='contained' onClick={handleMenuOpen}>
                   <img src={priorityIcon} alt="" style={{ width: "30px", height: "30px" }} />
                 </Button>
               </Tooltip>
+            <Button variant="contained" onClick={handleOpenCreateNote} className='noteButton' classes={{ root: 'noteButton' }}><AddIcon />Create</Button>
             </div>
-            <Button variant="contained" onClick={handleOpenCreateNote} className='noteButton'><AddIcon />Create</Button>
           </div>
           <div className='noteBottom'>
             {

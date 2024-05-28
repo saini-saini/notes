@@ -85,21 +85,25 @@
     align-items: center;
     padding: 5px;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 }
 
-.css-1orzy9s{
+.css-1orzy9s {
     display: flex;
 }
 
+.noteButton {
+    height: 44px;
+}
 
-.noteData{
+.noteData {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 70vh;
 }
+
 /* 
 .css-z3c6am-MuiFormControl-root-MuiTextField-root{
     display: none !important;
@@ -141,7 +145,7 @@
     font-size: 20px;
 }
 
-.view-dialog{
+.view-dialog {
     width: 500px;
 }
 
@@ -197,6 +201,10 @@
         min-width: 100% !important;
     }
 
+    .noteButton {
+        min-width: 100px !important;
+    }
+
 }
 
 /* Tablets and iPads */
@@ -213,6 +221,7 @@
             display: none;
         }
     }
+
     .css-10o2lyd-MuiStack-root>.MuiTextField-root {
         min-width: 100% !important;
     }
@@ -233,6 +242,7 @@
             display: none;
         }
     }
+
     .css-10o2lyd-MuiStack-root>.MuiTextField-root {
         min-width: 100% !important;
     }
