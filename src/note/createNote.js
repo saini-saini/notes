@@ -20,7 +20,7 @@ import './note.css'
 export default function CreateNote({ open, handleClose }) {
     const notesCollection = collection(dataBase, "notes");
     const authData = auth;
-    const user = authData.currentUser; 
+    const user = authData.currentUser;
 
     const formik = useFormik({
         initialValues: {
@@ -32,7 +32,7 @@ export default function CreateNote({ open, handleClose }) {
         validationSchema: CreateNoteValidation,
         onSubmit: async (values) => {
             if (values.date && dayjs.isDayjs(values.date)) {
-                values.date = values.date.toDate(); 
+                values.date = values.date.toDate();
             }
 
             const noteData = {
@@ -72,7 +72,7 @@ export default function CreateNote({ open, handleClose }) {
                 aria-describedby="alert-dialog-description"
                 classes={{ paper: 'dialog' }}
             >
-                <DialogTitle id="alert-dialog-title" style={{display:"flex", justifyContent:"center",fontSize:'23px'}}>
+                <DialogTitle id="alert-dialog-title" style={{ display: "flex", justifyContent: "center", fontSize: '23px' }}>
                     {"Create Note"}
                 </DialogTitle>
                 <form onSubmit={formik.handleSubmit} onKeyDown={handleKeyDown}>
@@ -143,13 +143,14 @@ export default function CreateNote({ open, handleClose }) {
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DemoContainer components={['DatePicker']}>
                                 <DatePicker
-                                   label={
-                                    <Typography>
-                                        Reminder<span style={{ color: 'red' }}>*</span> 
-                                    </Typography>
-                                }
+                                    label={
+                                        <Typography>
+                                            Reminder<span style={{ color: 'red' }}>*</span>
+                                        </Typography>
+                                    }
                                     value={formik.values.date}
                                     onChange={(date) => formik.setFieldValue('date', date)}
+                                    sx={{ minWidth: '100% !important' }}
                                 />
                             </DemoContainer>
                         </LocalizationProvider>

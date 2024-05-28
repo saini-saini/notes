@@ -124,9 +124,9 @@
     flex-direction: column;
 }
 
-.css-10o2lyd-MuiStack-root>.MuiTextField-root {
+/* .css-10o2lyd-MuiStack-root>.MuiTextField-root {
     min-width: 100% !important;
-}
+} */
 
 /*//////////////////////////////// view card ///////////////////////////////////////////// */
 
@@ -197,9 +197,9 @@
         justify-content: center;
     }
 
-    .css-10o2lyd-MuiStack-root>.MuiTextField-root {
+    /* .css-10o2lyd-MuiStack-root>.MuiTextField-root {
         min-width: 100% !important;
-    }
+    } */
 
     .noteButton {
         min-width: 100px !important;
@@ -222,9 +222,9 @@
         }
     }
 
-    .css-10o2lyd-MuiStack-root>.MuiTextField-root {
+    /* .css-10o2lyd-MuiStack-root>.MuiTextField-root {
         min-width: 100% !important;
-    }
+    } */
 
 }
 
@@ -243,9 +243,9 @@
         }
     }
 
-    .css-10o2lyd-MuiStack-root>.MuiTextField-root {
+    /* .css-10o2lyd-MuiStack-root>.MuiTextField-root {
         min-width: 100% !important;
-    }
+    } */
 }
 
 /* Desktops and large screens */
@@ -259,7 +259,7 @@
         }
     }
 
-    .css-10o2lyd-MuiStack-root>.MuiTextField-root {
+    /* .css-10o2lyd-MuiStack-root>.MuiTextField-root {
         min-width: 100% !important;
-    }
+    } */
 }
