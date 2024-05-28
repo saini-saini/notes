@@ -170,6 +170,7 @@ export default function EditNote({ open, handleClose, selectedNote }) {
                                     }
                                     value={formik.values.date}
                                     onChange={(date) => formik.setFieldValue('date', date)}
+                                    sx={{ minWidth: '100% !important' }}
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
