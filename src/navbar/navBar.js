@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './navBar.css';
-import { Button, Badge, Divider, Chip } from '@mui/material';
+import { Button, Badge, Divider, Chip, Tooltip } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseFireStore/config';
 import { signOut } from 'firebase/auth';
@@ -10,7 +10,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
 import { dataBase } from '../firebaseFireStore/config';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -101,6 +101,18 @@ const NavBar = () => {
     setSelectedNote(null);
   };
 
+  const markAsRead = async (notificationId) => {
+    const notificationRef = doc(dataBase, 'notes', notificationId);
+    await updateDoc(notificationRef, { isRead: true });
+    fetchNotifications();
+  };
+
+  const markAsUnread = async (notificationId) => {
+    const notificationRef = doc(dataBase, 'notes', notificationId);
+    await updateDoc(notificationRef, { isRead: false });
+    fetchNotifications();
+  };
+
   const unreadCount = notifications.filter(notification => !notification.isRead).length;
 
   const NotificationDrawer = (
@@ -109,13 +121,19 @@ const NavBar = () => {
         <p style={{ marginLeft: '20px', fontWeight: 'bold', fontSize: '20px', color: "#1976D2", display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '10px' }}>Reminder<NotificationsActiveIcon /></p>
         <Divider></Divider>
         {notifications.map((notification, index) => (
-          <ListItem button key={index} style={{ backgroundColor: allRead || notification.isRead ? 'white' : '#cbe0f3f8' }} onClick={() => handleEditNoteOpen(notification)}>
+          <ListItem button key={index} style={{ backgroundColor: allRead || notification.isRead ? 'white' : '#cbe0f3f8' }} >
             <ListItemIcon>
               <NotificationsActiveIcon />
             </ListItemIcon>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <ListItemText primary={notification.title} secondary={notification.description} />
-              <Chip label={notification.priority} style={{ backgroundColor: notification?.priority === "high" ? "red" : notification?.priority === "medium" ? "orange" : "green", color: "white", marginLeft: "5px", width: "80px" }} />
+            <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: "7px" }}>
+              <ListItemText primary={notification.title} secondary={notification.description} onClick={() => handleEditNoteOpen(notification)} />
+              <Chip onClick={() => handleEditNoteOpen(notification)} label={notification.priority} style={{ backgroundColor: notification?.priority === "high" ? "red" : notification?.priority === "medium" ? "orange" : "green", color: "white", marginLeft: "5px", width: "80px" }} />
+              {!notification.isRead && (
+                  <Button variant='outlined' onClick={() => markAsRead(notification.id)}>Mark as read</Button>
+              )}
+              {notification.isRead && (
+                  <Button variant='outlined' onClick={() => markAsUnread(notification.id)}>Mark as unread</Button>
+              )}
               <Divider style={{ marginTop: '20px' }}></Divider>
             </div>
           </ListItem>
@@ -171,7 +189,6 @@ const NavBar = () => {
       </div>
       {NotificationDrawer}
       {selectedNote && <ViewNote open={editNoteOpen} handleClose={handleEditNoteClose} selectedNote={selectedNote} />}
-
     </div>
   );
 };

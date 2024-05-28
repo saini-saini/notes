@@ -147,12 +147,10 @@ const Note = () => {
                     <div className='cardWrapper' key={index} style={{ backgroundColor: generateRandomColor() }}>
                       <div className='cardInfo'>
                         <p className='cardPara'><span className='cardSpan'>Title:</span>{value?.title}</p>
-                        <Tooltip title={value?.description} disableHoverListener={value?.description.length <= 200}>
                           <p className='cardPara description'>
                             <span className='cardSpan description'>Description:</span>
                             {value?.description.length > 200 ? `${value.description.substring(0, 200)}...` : value.description}
                           </p>
-                        </Tooltip>
                       </div>
                       <div className='cardAction'>
                         <Button variant="outlined" onClick={() => handleOpenEditNote(value)}><EditIcon /></Button>

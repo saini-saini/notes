@@ -50,7 +50,7 @@
     text-align: center;
     border: none;
     border-radius: 7px;
-    caret-color: #A9DEF9;
+    /* caret-color: #A9DEF9; */
     color: rgb(44, 44, 44);
     outline: none;
     font-weight: 600;
